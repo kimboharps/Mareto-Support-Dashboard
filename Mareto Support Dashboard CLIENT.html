@@ -912,31 +912,15 @@
   // ══════════════════════════════════════════
 
   function switchTicketView(view) {
-    currentTicketView = view;
-    document.getElementById('btnClientView').classList.toggle('active', view === 'client');
-    document.getElementById('btnAdminView').classList.toggle('active', view === 'admin');
-    document.getElementById('adminFilters').style.display = view === 'admin' ? 'flex' : 'none';
-    document.getElementById('adminCharts').style.display = view === 'admin' ? 'grid' : 'none';
+    // CLIENT: always client view
+    currentTicketView = 'client';
     renderTicketMetrics();
     renderTicketTable();
-    if (view === 'admin') renderAdminCharts();
   }
 
   function getFilteredTickets() {
-    let filtered = [...tickets];
-    if (currentTicketView === 'client') {
-      filtered = filtered.filter(t => t.org === CURRENT_USER.org);
-    } else {
-      const org = document.getElementById('filterOrg').value;
-      const status = document.getElementById('filterStatus').value;
-      const type = document.getElementById('filterTicketType').value;
-      const priority = document.getElementById('filterPriority').value;
-      if (org !== 'all') filtered = filtered.filter(t => t.org === org);
-      if (status !== 'all') filtered = filtered.filter(t => t.status === status);
-      if (type !== 'all') filtered = filtered.filter(t => t.type === type);
-      if (priority !== 'all') filtered = filtered.filter(t => t.priority === priority);
-    }
-    return filtered;
+    // CLIENT: always filter to current user's org
+    return tickets.filter(t => t.org === CURRENT_USER.org);
   }
 
   function renderTicketMetrics() {
@@ -1626,15 +1610,9 @@
   // ══════════════════════════════════════════
 
   function switchAccountView(view) {
-    currentAccountView = view;
-    document.getElementById('btnClientAccount').classList.toggle('active', view === 'client');
-    document.getElementById('btnAdminAccount').classList.toggle('active', view === 'admin');
-    document.getElementById('accountClientView').style.display = view === 'client' ? 'block' : 'none';
-    document.getElementById('accountAdminView').style.display = view === 'admin' ? 'block' : 'none';
-    if (view === 'admin') {
-      closeOrgDetail();
-      renderAccountAdmin();
-    }
+    // CLIENT: always client view
+    currentAccountView = 'client';
+    renderAccountClient();
   }
 
   function getRenewalStatus(dateStr) {
@@ -1880,12 +1858,11 @@
     document.getElementById('orgDetailView').classList.remove('active');
   }
 
-  // Initialize ticket system
-  populateOrgFilter();
+  // Initialize ticket system (client only)
   renderTicketMetrics();
   renderTicketTable();
 
-  // Initialize account info
+  // Initialize account info (client only)
   renderAccountClient();
 </script>
 </body>

@@ -970,14 +970,11 @@
   // ══════════════════════════════════════════
 
   function switchTicketView(view) {
-    currentTicketView = view;
-    document.getElementById('btnClientView').classList.toggle('active', view === 'client');
-    document.getElementById('btnAdminView').classList.toggle('active', view === 'admin');
-    document.getElementById('adminFilters').style.display = view === 'admin' ? 'flex' : 'none';
-    document.getElementById('adminCharts').style.display = view === 'admin' ? 'grid' : 'none';
+    // ADMIN: always admin view
+    currentTicketView = 'admin';
     renderTicketMetrics();
     renderTicketTable();
-    if (view === 'admin') renderAdminCharts();
+    renderAdminCharts();
   }
 
   function getFilteredTickets() {
@@ -1684,15 +1681,10 @@
   // ══════════════════════════════════════════
 
   function switchAccountView(view) {
-    currentAccountView = view;
-    document.getElementById('btnClientAccount').classList.toggle('active', view === 'client');
-    document.getElementById('btnAdminAccount').classList.toggle('active', view === 'admin');
-    document.getElementById('accountClientView').style.display = view === 'client' ? 'block' : 'none';
-    document.getElementById('accountAdminView').style.display = view === 'admin' ? 'block' : 'none';
-    if (view === 'admin') {
-      closeOrgDetail();
-      renderAccountAdmin();
-    }
+    // ADMIN: always admin view
+    currentAccountView = 'admin';
+    closeOrgDetail();
+    renderAccountAdmin();
   }
 
   function getRenewalStatus(dateStr) {
