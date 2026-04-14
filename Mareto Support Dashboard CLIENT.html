@@ -812,7 +812,11 @@
 
   const ORGANIZATIONS = ['SSTS', 'TI', 'KFS', 'Sunrise', 'HelpSeeker'];
 
-  let tickets = [
+  // ══════════════════════════════════════════
+  // LOCAL STORAGE SYNC — shared between CLIENT and ADMIN
+  // ══════════════════════════════════════════
+
+  const DEFAULT_TICKETS = [
     {
       id: 'TKT-1042', subject: 'GFB Order List not filtering by date range',
       type: 'Bug', priority: 'High', status: 'Open', org: 'KFS',
@@ -904,8 +908,47 @@
     }
   ];
 
+  // Load tickets from localStorage, or seed with defaults on first visit
+  let tickets = (function() {
+    try {
+      const stored = localStorage.getItem('mareto_tickets');
+      if (stored) return JSON.parse(stored);
+    } catch(e) {}
+    // First visit — seed localStorage with sample data
+    localStorage.setItem('mareto_tickets', JSON.stringify(DEFAULT_TICKETS));
+    return JSON.parse(JSON.stringify(DEFAULT_TICKETS));
+  })();
+
+  let nextTicketId = (function() {
+    try {
+      const stored = localStorage.getItem('mareto_nextTicketId');
+      if (stored) return parseInt(stored, 10);
+    } catch(e) {}
+    localStorage.setItem('mareto_nextTicketId', '1050');
+    return 1050;
+  })();
+
+  function saveTickets() {
+    try {
+      localStorage.setItem('mareto_tickets', JSON.stringify(tickets));
+      localStorage.setItem('mareto_nextTicketId', String(nextTicketId));
+    } catch(e) {}
+  }
+
+  // Auto-refresh when the tab becomes visible (picks up changes from the other dashboard)
+  document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+      try {
+        const stored = localStorage.getItem('mareto_tickets');
+        if (stored) tickets = JSON.parse(stored);
+        const storedId = localStorage.getItem('mareto_nextTicketId');
+        if (storedId) nextTicketId = parseInt(storedId, 10);
+      } catch(e) {}
+      renderTicketMetrics(); renderTicketTable(); renderAccountClient();
+    }
+  });
+
   let currentTicketView = 'client'; // CLIENT ONLY
-  let nextTicketId = 1050;
 
   // ══════════════════════════════════════════
   // SUPPORT TICKETS — RENDERING
@@ -1245,6 +1288,7 @@
       body: text
     });
     ticket.updated = now.toISOString().slice(0, 10);
+    saveTickets();
 
     openTicketDetail(ticketId);
     showToast('Reply posted');
@@ -1274,6 +1318,7 @@
     ticket.resolutionDate = new Date().toISOString().slice(0, 10);
     ticket.resolvedBy = CURRENT_USER.name;
     ticket.updated = ticket.resolutionDate;
+    saveTickets();
     showToast('Resolution notes saved');
   }
 
@@ -1284,6 +1329,7 @@
     if (!comment) { showToast('Please enter a comment'); return; }
     ticket.resolutionComment = comment;
     ticket.updated = new Date().toISOString().slice(0, 10);
+    saveTickets();
     showToast('Comment saved');
   }
 
@@ -1326,6 +1372,7 @@
     ticket.feedbackComment = comment;
     ticket.feedbackDate = new Date().toISOString().slice(0, 10);
     ticket.updated = ticket.feedbackDate;
+    saveTickets();
     currentRating = 0;
     openTicketDetail(ticketId);
     // Re-switch to feedback tab
@@ -1343,6 +1390,7 @@
     if (!ticket) return;
     ticket[field] = value;
     ticket.updated = new Date().toISOString().slice(0, 10);
+    saveTickets();
     showToast(`Ticket ${field} updated to "${value}"`);
   }
 
@@ -1488,6 +1536,7 @@
     };
 
     tickets.unshift(newTicket);
+    saveTickets();
     closeNewTicketModal();
     renderTicketMetrics();
     renderTicketTable();

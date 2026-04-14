@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mareto Support Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep-navy: #0B1F33;
+    --teal-core: #14B8A6;
+    --white: #FFFFFF;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Lato', sans-serif; background: #f0f2f5; min-height: 100vh; display: flex; flex-direction: column; }
+
+  .header { background: #fff; border-bottom: 1px solid #e2e8f0; padding: 10px 24px; height: 56px; display: flex; align-items: center; gap: 12px; }
+  .header .logo { width: 36px; height: 36px; background: var(--deep-navy); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+  .header h1 { font-size: 20px; font-weight: 700; color: var(--deep-navy); }
+  .header .powered { font-size: 12px; color: var(--teal-core); font-weight: 500; margin-left: -4px; }
+
+  .content { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; max-width: 720px; width: 100%; }
+
+  .card { background: #fff; border: 1px solid #e2e8f0; border-radius: 16px; padding: 40px 32px; text-align: center; text-decoration: none; color: inherit; transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s; }
+  .card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.1); border-color: var(--teal-core); transform: translateY(-2px); }
+
+  .card .icon { width: 64px; height: 64px; border-radius: 14px; margin: 0 auto 20px; display: flex; align-items: center; justify-content: center; }
+  .card .icon.client { background: #f0fdfa; }
+  .card .icon.admin { background: rgba(11,31,51,0.06); }
+  .card .icon svg { width: 32px; height: 32px; }
+
+  .card h2 { font-size: 18px; font-weight: 700; color: var(--deep-navy); margin-bottom: 8px; }
+  .card p { font-size: 13px; color: #64748b; line-height: 1.5; }
+  .card .badge { display: inline-block; margin-top: 16px; padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+  .card .badge.client-badge { background: #CCFBF1; color: #0D9488; }
+  .card .badge.admin-badge { background: #E2E8F0; color: var(--deep-navy); }
+
+  .hint { text-align: center; margin-top: 24px; font-size: 12px; color: #94a3b8; }
+  .hint a { color: var(--teal-core); text-decoration: none; }
+  .hint a:hover { text-decoration: underline; }
+
+  .reset-btn { display: inline-block; margin-top: 8px; padding: 6px 16px; border: 1px solid #e2e8f0; border-radius: 6px; background: #fff; color: #64748b; font-family: 'Lato', sans-serif; font-size: 12px; cursor: pointer; transition: all 0.15s; }
+  .reset-btn:hover { border-color: #DC2626; color: #DC2626; }
+
+  .footer { background: var(--deep-navy); color: #fff; padding: 12px 24px; display: flex; align-items: center; gap: 12px; font-size: 13px; }
+  .footer .footer-logo { width: 32px; height: 32px; background: #162a40; border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+  .footer .brand { font-size: 12px; font-weight: 700; letter-spacing: 0.5px; }
+  .footer .sub { font-size: 11px; color: #94a3b8; font-weight: 600; }
+  .footer .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; margin-left: auto; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2" width="20" height="20"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6M12 9v6"/></svg>
+  </div>
+  <h1>Mareto Support Dashboard</h1>
+  <span class="powered">Powered by HelpSeeker Technologies</span>
+</div>
+
+<div class="content">
+  <div>
+    <div class="cards">
+      <a class="card" href="Mareto Support Dashboard CLIENT.html">
+        <div class="icon client">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        <h2>Client Dashboard</h2>
+        <p>Submit and track your organization's support tickets. View your account info and contract details.</p>
+        <span class="badge client-badge">Client View</span>
+      </a>
+
+      <a class="card" href="Mareto Support Dashboard ADMIN.html">
+        <div class="icon admin">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#0B1F33" stroke-width="1.5"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h2>Admin Dashboard</h2>
+        <p>Manage all tickets across organizations. View account details, charts, and org drill-downs.</p>
+        <span class="badge admin-badge">Admin View</span>
+      </a>
+    </div>
+
+    <div class="hint">
+      <p>Both dashboards share ticket data via browser storage. Changes in one appear in the other.</p>
+      <button class="reset-btn" onclick="if(confirm('Reset all ticket data to sample defaults?')){localStorage.removeItem('mareto_tickets');localStorage.removeItem('mareto_nextTicketId');location.reload();}">Reset Sample Data</button>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="footer-logo">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#14B8A6" stroke-width="2" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12h6M12 9v6"/></svg>
+  </div>
+  <div>
+    <span class="brand">MARETO</span><br>
+    <span class="sub">Support Dashboard</span>
+  </div>
+  <div class="status-dot"></div>
+</div>
+
+</body>
+</html>
